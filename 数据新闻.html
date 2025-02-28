@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据新闻专业介绍</title>
+    <style>
+        /* 简单的图表样式 */
+      .chart {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #ccc;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>数据新闻专业介绍</h1>
+    <p>数据新闻专业是一个融合了新闻学、数据科学和可视化设计等多学科知识的新兴专业。</p>
+    <p>该专业旨在培养学生具备从海量数据中挖掘有价值信息，并通过可视化的方式将新闻故事生动呈现给受众的能力。</p>
+    <p>在数据新闻专业的学习过程中，学生将掌握数据收集、清洗、分析的技能，同时学习如何运用各种工具和技术创建吸引人的图表和可视化内容。</p>
+
+    <!-- 这里展示一个简单模拟的图表 -->
+    <div class="chart">
+        <!-- 实际这里会根据数据动态绘制图表 -->
+        <p>模拟图表区域</p>
+    </div>
+
+    <p>数据新闻专业的毕业生可以在各类媒体机构、新闻网站等从事数据新闻报道、可视化设计等工作，为受众带来更具深度和吸引力的新闻体验。</p>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据新闻专业介绍</title>
+    <!-- 引入Chart.js库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <h1>数据新闻专业介绍</h1>
+    <p>数据新闻专业是一个融合了新闻学、数据科学和可视化设计等多学科知识的新兴专业。</p>
+    <p>该专业旨在培养学生具备从海量数据中挖掘有价值信息，并通过可视化的方式将新闻故事生动呈现给受众的能力。</p>
+    <p>在数据新闻专业的学习过程中，学生将掌握数据收集、清洗、分析的技能，同时学习如何运用各种工具和技术创建吸引人的图表和可视化内容。</p>
+
+    <!-- 为柱状图创建画布 -->
+    <canvas id="myChart"></canvas>
+
+    <p>数据新闻专业的毕业生可以在各类媒体机构、新闻网站等从事数据新闻报道、可视化设计等工作，为受众带来更具深度和吸引力的新闻体验。</p>
+
+    <script>
+        // 获取画布元素
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['数据收集', '数据分析', '可视化设计'],
+                datasets: [{
+                    label: '数据新闻专业技能占比',
+                    data: [30, 35, 35],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192
