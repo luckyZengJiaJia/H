@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特色按钮设计</title>
+    <style>
+        /* 气垫形状按钮 */
+      .compact-powder-button {
+            width: 120px;
+            height: 60px;
+            border-radius: 30px;
+            background-color: #FFE4C4;
+            border: 2px solid #FFDAB9;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+        }
+
+      .compact-powder-button::before {
+            content: "";
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #FFDAB9;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 口红形状按钮 */
+      .lipstick-button {
+            width: 100px;
+            height: 40px;
+            border-radius: 20px 20px 5px 5px;
+            background-color: #FF1493;
+            border: 2px solid #FF69B4;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+        }
+
+      .lipstick-button::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #FF69B4;
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 眼影形状按钮 */
+      .eyeshadow-button {
+            width: 140px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: #87CEEB;
+            border: 2px solid #B0E0E6;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+        }
+
+      .eyeshadow-button::before {
+            content: "";
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #B0E0E6;
+            position: absolute;
+            top: -7.5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 模拟气垫形状的按钮 -->
+    <button class="compact-powder-button">气垫按钮</button>
+    <!-- 模拟口红形状的按钮 -->
+    <button class="lipstick-button">口红按钮</button>
+    <!-- 模拟眼影形状的按钮 -->
+    <button class="eyeshadow-button">眼影按钮</button>
+</body>
+
+</html>
