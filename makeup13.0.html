@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI美妆顾问 | 智能妆容定制</title>
+    <link href="https://cdnjs.cloudflare.com/.../font-awesome.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --rose-gold: #B76E79;
+            --pearl-white: #F5F5F5;
+            --velvet-black: #2A2A2A;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: var(--pearl-white);
+            color: var(--velvet-black);
+        }
+
+        /* 风格选择器 */
+        .style-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .style-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            aspect-ratio: 1/1;
+        }
+
+        .style-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.8);
+            transition: filter 0.3s;
+        }
+
+        .style-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .style-card.active {
+            box-shadow: 0 0 0 3px var(--rose-gold);
+        }
+
+        .style-card:hover img {
+            filter: brightness(1);
+        }
+
+        .style-label {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 1.2rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* 妆容展示区 */
+        .makeup-display {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            display: none;
+        }
+
+        .makeup-display.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 产品推荐 */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .product-image {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            margin: 0 auto 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 风格选择 -->
+    <div class="style-selector">
+        <!-- 约会妆容 -->
+        <div class="style-card active" data-style="date">
+            <img src="https://example.com/date-makeup.jpg" alt="约会妆容">
+            <div class="style-label">蜜桃约会妆</div>
+        </div>
+
+        <!-- 晚宴妆容 -->
+        <div class="style-card" data-style="gala">
+            <img src="https://example.com/gala-makeup.jpg" alt="晚宴妆容">
+            <div class="style-label">鎏金晚宴妆</div>
+        </div>
+
+        <!-- 新增更多风格... -->
+    </div>
+
+    <!-- 约会妆容展示 -->
+    <div class="makeup-display active" id="date">
+        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fgirlstyle.com%2Fmy%2F..." 
+             class="main-image" 
+             alt="约会妆容示例">
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="foundation.jpg" class="product-image" alt="粉底液">
+                <h3>NARS亮采粉底液</h3>
+                <p>价格：¥480</p>
+                <button class="buy-btn">天猫旗舰店购买</button>
+            </div>
+            <!-- 更多产品 -->
+        </div>
+    </div>
+
+    <!-- 晚宴妆容展示 -->
+    <div class="makeup-display" id="gala">
+        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fdepositphotos.com%2Fcn%2F..." 
+             class="main-image" 
+             alt="晚宴妆容示例">
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="eyeshadow-palette.jpg" class="product-image" alt="眼影盘">
+                <h3>TOM FORD四色眼影</h3>
+                <p>价格：¥720</p>
+                <button class="buy-btn">官方商城购买</button>
+            </div>
+            <!-- 更多产品 -->
+        </div>
+    </div>
+
+    <script>
+        // 风格切换功能
+        document.querySelectorAll('.style-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // 移除所有激活状态
+                document.querySelectorAll('.style-card, .makeup-display').forEach(el => {
+                    el.classList.remove('active');
+                });
+
+                // 设置当前激活状态
+                this.classList.add('active');
+                const style = this.dataset.style;
+                document.getElementById(style).classList.add('active');
+            });
+        });
+
+        // 图片预加载
+        window.addEventListener('load', () => {
+            const images = [
+                'https://www.google.com/url?sa=i&url=https%3A%2F%2Fgirlstyle.com%2Fmy%2F...',
+                'https://www.google.com/url?sa=i&url=https%3A%2F%2Fdepositphotos.com%2Fcn%2F...'
+            ];
+            
+            images.forEach(src => {
+                new Image().src = src;
+            });
+        });
+    </script>
+</body>
+</html>
