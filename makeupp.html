@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>美妆定制</title>
+  <style>
+    body {
+      /* 使用相对路径指定背景图片，假设图片在当前目录下的 images 文件夹 */
+      background-image: url('images/cosmetics.jpg'); 
+      background-size: cover;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      text-align: center;
+    }
+
+    ul li {
+      display: inline;
+      margin: 0 15px;
+    }
+
+    ul li a {
+      text-decoration: none;
+      color: #007BFF;
+      font-size: 18px;
+      border: 1px solid #007BFF;
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+
+    #makeup-result {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    /* 用于展示妆容图片和推荐的样式 */
+  .makeup-item {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 15px;
+      display: inline-block;
+      width: 300px;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+  .makeup-item img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+
+  .makeup-item p {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>选择你的场合</h1>
+  <ul>
+    <li><a href="#" id="work">工作场合</a></li>
+    <li><a href="#" id="party">派对场合</a></li>
+    <li><a href="#" id="wedding">婚礼场合</a></li>
+  </ul>
+  <div id="makeup-result"></div>
+
+  <script>
+    document.getElementById('work').addEventListener('click', function () {
+      let makeupHTML = `
+        <div class="makeup-item">
+          <img src="images/work_makeup.jpg" alt="工作场合妆容">
+          <p>这里展示工作场合妆容所需的化妆品推荐</p>
+        </div>
+      `;
+      document.getElementById('makeup-result').innerHTML = makeupHTML;
+    });
+
+    document.getElementById('party').addEventListener('click', function () {
+      let makeupHTML = `
+        <div class="makeup-item">
+          <img src="images/party_makeup.jpg" alt="派对场合妆容">
+          <p>这里展示派对场合妆容所需的化妆品推荐</p>
+        </div>
+      `;
+      document.getElementById('makeup-result').innerHTML = makeupHTML;
+    });
+
+    document.getElementById('wedding').addEventListener('click', function () {
+      let makeupHTML = `
+        <div class="makeup-item">
+          <img src="images/wedding_makeup.jpg" alt="婚礼场合妆容">
+          <p>这里展示婚礼场合妆容所需的化妆品推荐</p>
+        </div>
+      `;
+      document.getElementById('makeup-result').innerHTML = makeupHTML;
+    });
+  </script>
+</body>
+
+</html>
