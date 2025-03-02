@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>场合妆容定制 - 美妆助手</title>
+    <style>
+        :root {
+            --primary-color: #FFB6C1; /* 主色调 */
+            --secondary-color: #FFF0F5; /* 副色调 */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+            color: white;
+        }
+
+        .makeup-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .makeup-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .makeup-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .makeup-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .category-tag {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: var(--primary-color);
+            color: white;
+            margin: 10px 0;
+        }
+
+        .product-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .product-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .makeup-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>场合妆容定制助手</h1>
+        <p>根据您的活动类型推荐专属妆容方案</p>
+    </header>
+
+    <div class="container">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-category="all">全部</button>
+            <button class="filter-btn" data-category="wedding">婚礼</button>
+            <button class="filter-btn" data-category="date">约会</button>
+            <button class="filter-btn" data-category="party">派对</button>
+            <button class="filter-btn" data-category="work">职场</button>
+        </div>
+
+        <div class="makeup-section">
+            <!-- 婚礼妆容 -->
+            <div class="makeup-card" data-category="wedding">
+                <span class="category-tag">婚礼妆容</span>
+                <img src="wedding-makeup.jpg" alt="婚礼妆容" class="makeup-image">
+                <h3>清新新娘妆</h3>
+                <p>适合场合：婚礼仪式、婚纱拍摄</p>
+                <ul class="product-list">
+                    <li>💄 底妆：Armani 权力粉底液</li>
+                    <li>👁 眼影：Urban Decay Naked3</li>
+                    <li>💋 唇膏：YSL 哑光唇釉 #217</li>
+                </ul>
+            </div>
+
+            <!-- 约会妆容 -->
+            <div class="makeup-card" data-category="date">
+                <span class="category-tag">约会妆容</span>
+                <img src="date-makeup.jpg" alt="约会妆容" class="makeup-image">
+                <h3>蜜桃微醺妆</h3>
+                <p>适合场合：情侣约会、周末约会</p>
+                <ul class="product-list">
+                    <li>💄 底妆：NARS 亮采持久粉底液</li>
+                    <li>👁 眼影：3CE #overtake</li>
+                    <li>💋 唇膏：Romand 果汁唇釉 #13</li>
+                </ul>
+            </div>
+
+            <!-- 更多妆容卡片... -->
+        </div>
+    </div>
+
+    <script>
+        // 筛选功能
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // 移除所有active状态
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+                
+                const category = button.dataset.category;
+                filterCards(category);
+            });
+        });
+
+        function filterCards(category) {
+            document.querySelectorAll('.makeup-card').forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
