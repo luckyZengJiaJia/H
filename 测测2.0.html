@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神秘测试之旅</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('星空与水晶球背景图的URL');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff00ff;
+            animation: glow 2s ease - in - out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #ff00ff;
+            }
+
+            to {
+                text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            }
+        }
+
+        .question {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .option {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            padding: 20px 40px;
+            margin: 15px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 24px;
+        }
+
+        .option:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .result {
+            display: none;
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        button#submit {
+            background-color: #ff00ff;
+            border: none;
+            color: #fff;
+            padding: 20px 40px;
+            margin-top: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 24px;
+        }
+
+        button#submit:hover {
+            background-color: #cc00cc;
+            transform: scale(1.05);
+        }
+
+        .sound - button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .sound - button i {
+            font - size: 36px;
+            color: #fff;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s linear infinite;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</head>
+
+<body>
+    <!-- 星星元素，通过CSS动画模拟闪烁效果 -->
+    <div class="star" style="left: 20%; top: 30%;"></div>
+    <div class="star" style="left: 50%; top: 60%;"></div>
+    <div class="star" style="left: 80%; top: 10%;"></div>
+    <div class="star" style="left: 30%; top: 80%;"></div>
+
+    <div class="container">
+        <h1>神秘魔法测试</h1>
+        <div class="question" id="question">当你在魔法世界中冒险，遇到一个神秘的洞穴，你会？</div>
+        <div class="options">
+            <button class="option" data - answer="A">小心翼翼地进入，探索里面的秘密</button>
+            <button class="option" data - answer="B">在洞口观察，寻找危险的迹象</button>
+            <button class="option" data - answer="C">直接离开，觉得太危险</button>
+        </div>
+        <button id="submit">提交答案</button>
+        <div class="result" id="result">
+            <p id="result - text"></p>
+        </div>
+        <button class="sound - button" id="soundButton">
+            <i class="fas fa - volume - up"></i>
+        </button>
+    </div>
+
+    <script>
+        const options = document.querySelectorAll('.option');
+        const submitButton = document.getElementById('submit');
+        const resultDiv = document.getElementById('result');
+        const resultText = document.getElementById('result - text');
+        const soundButton = document.getElementById('soundButton');
+        let selectedAnswer = null;
+        let isMuted = false;
+
+        // 背景音乐
+        const audio = new Audio('背景音乐的URL');
+        audio.loop = true;
+        audio.play();
+
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                selectedAnswer = option.dataset.answer;
+                options.forEach(opt => opt.style.backgroundColor = 'rgba(255, 255, 255, 0.1)');
+                option.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+            });
+        });
+
+        submitButton.addEventListener('click', () => {
+            if (selectedAnswer) {
+                let resultMessage = '';
+                switch (selectedAnswer) {
+                    case 'A':
+                        resultMessage = '你是一个勇敢且充满好奇心的人，在生活中敢于挑战未知，探索新的领域，总是能发现别人错过的美好。';
+                        break;
+                    case 'B':
+                        resultMessage = '你行事谨慎，善于观察和分析，在面对困难和风险时，总能冷静思考，做出最恰当的决策。';
+                        break;
+                    case 'C':
+                        resultMessage = '你可能比较保守，更倾向于待在自己的舒适区，但有时候，勇敢迈出一步，也许会发现不一样的精彩。';
+                        break;
+                }
+                resultText.textContent = resultMessage;
+                resultDiv.style.display = 'block';
+            } else {
+                alert('请先选择一个答案！');
+            }
+        });
+
+        soundButton.addEventListener('click', () => {
+            if (isMuted) {
+                audio.play();
+                soundButton.innerHTML = '<i class="fas fa - volume - up"></i>';
+            } else {
+                audio.pause();
+                soundButton.innerHTML = '<i class="fas fa - volume - mute"></i>';
+            }
+            isMuted =!isMuted;
+        });
+    </script>
+</body>
+
+</html>
