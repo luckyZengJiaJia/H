@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美妆定制网页</title>
+    <style>
+        /* 设置阿玛尼相关化妆品图片作为背景，固定且铺满整个页面 */
+        body {
+            background-image: url('armani_cosmetics.jpg'); /* 请将'armani_cosmetics.jpg'替换为真实的阿玛尼化妆品图片路径 */
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 标题样式调整 */
+        h1 {
+            text-align: center;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-top: 30px;
+        }
+
+        /* 提示文案样式调整 */
+        p {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* 按钮样式调整 */
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 妆容建议显示区域样式调整 */
+        #makeupResult {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>美妆定制</h1>
+    <p>请选择你要出席的场合，我们将为你定制专属妆容。</p>
+
+    <!-- 场合选择按钮示例 -->
+    <button onclick="showMakeup('日常通勤')">日常通勤</button>
+    <button onclick="showMakeup('晚宴派对')">晚宴派对</button>
+    <button onclick="showMakeup('户外运动')">户外运动</button>
+
+    <div id="makeupResult"></div>
+
+    <script>
+        function showMakeup(occasion) {
+            let makeupInfo = {};
+            if (occasion === '日常通勤') {
+                makeupInfo = {
+                    description: '日常通勤妆容追求自然、简约，凸显好气色。',
+                    imageUrl: '日常通勤妆容参考图.jpg',
+                    products: '粉底液、眉笔、自然色眼影、裸色口红'
+                };
+            } else if (occasion === '晚宴派对') {
+                makeupInfo = {
+                    description: '晚宴派对妆容需要更华丽、吸睛，强调眼妆和唇妆。',
+                    imageUrl: '晚宴派对妆容参考图.jpg',
+                    products: '遮瑕度高的粉底液、闪亮眼影、假睫毛、红色系口红'
+                };
+            } else if (occasion === '户外运动') {
+                makeupInfo = {
+                    description: '户外运动妆容要轻薄、持久、防水。',
+                    imageUrl: '户外运动妆容参考图.jpg',
+                    products: '轻薄防晒粉底液、防水睫毛膏、淡色腮红'
+                };
+            }
+
+            let resultDiv = document.getElementById('makeupResult');
+            resultDiv.innerHTML = `<h2>${occasion}妆容</h2><p>${makeupInfo.description}</p><img src="${makeupInfo.imageUrl}" alt="${occasion}妆容"><p>所需化妆品：${makeupInfo.products}</p>`;
+        }
+    </script>
+</body>
+
+</html>
