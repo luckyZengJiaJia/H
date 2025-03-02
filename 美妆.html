@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美妆风格测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cinzel Decorative', cursive;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #fbe9e7, #ffccbc),
+                url('https://images.unsplash.com/photo-1520531158340-44015069e78e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80') center/cover fixed;
+            color: #3e2723;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .makeup-mirror {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            margin: 2rem auto;
+            box-shadow: 0 0 50px #ffab91;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 3s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+                box-shadow: 0 0 50px #ffab91;
+            }
+
+            to {
+                transform: scale(1.05);
+                box-shadow: 0 0 80px #ffab91;
+            }
+        }
+
+        .question-container {
+            animation: fadeIn 1s ease;
+        }
+
+        .question {
+            display: none;
+        }
+
+        .question.active {
+            display: block;
+        }
+
+        .option {
+            background: rgba(255, 168, 132, 0.3);
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #ffab91;
+        }
+
+        .option.selected {
+            background: rgba(255, 168, 132, 0.6);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #ffab91;
+        }
+
+        .progress-bar {
+            width: 60%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 2rem auto;
+            border-radius: 2px;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: #ffab91;
+            transition: width 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sparkles {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .music-control:hover {
+            transform: scale(1.2);
+        }
+
+        .result {
+            animation: fadeIn 1s ease;
+        }
+
+        .loading {
+            display: none;
+            font-size: 24px;
+            margin-top: 2rem;
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .result-img {
+            width: 300px;
+            height: auto;
+            margin: 1rem auto;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #ffab91;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sparkles"></div>
+    <audio id="bgm" loop>
+        <source src="https://example.com/mystical-ambience.mp3" type="audio/mpeg">
+    </audio>
+    <div class="music-control">🎵</div>
+
+    <div class="container">
+        <div class="makeup-mirror"></div>
+        <div class="question-container">
+            <div class="question active" data-question="1">
+                <h2>你平时更喜欢哪种色系的衣服？</h2>
+                <div class="option" data-value="a">柔和的粉色、米色等暖色系</div>
+                <div class="option" data-value="b">深沉的黑色、深蓝色等冷色系</div>
+                <div class="option" data-value="c">鲜艳的红色、黄色等亮色</div>
+            </div>
+            <div class="question" data-question="2">
+                <h2>你参加活动的频率如何？</h2>
+                <div class="option" data-value="a">很少参加，大部分时间是日常出行</div>
+                <div class="option" data-value="b">偶尔参加一些小型聚会</div>
+                <div class="option" data-value="c">经常参加大型派对或重要场合</div>
+            </div>
+            <div class="question" data-question="3">
+                <h2>你希望妆容突出哪个部位？</h2>
+                <div class="option" data-value="a">眼睛，希望有深邃的眼妆</div>
+                <div class="option" data-value="b">嘴唇，喜欢有色彩的唇妆</div>
+                <div class="option" data-value="c">整体，追求自然又精致的全妆效果</div>
+            </div>
+        </div>
+        <div class="loading">💄</div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // 背景音乐控制
+        const bgm = document.getElementById('bgm');
+        document.querySelector('.music-control').addEventListener('click', () => {
+            bgm.paused ? bgm.play() : bgm.pause();
+        });
+
+        // 动态创建闪耀效果
+        function createSparkles() {
+            const container = document.querySelector('.sparkles');
+            for (let i = 0; i < 200; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.style.cssText = `
+                    position: absolute;
+                    width: ${Math.random() * 3}px;
+                    height: ${Math.random() * 3}px;
+                    background: rgba(255, 255, 255, ${Math.random()});
+                    top: ${Math.random() * 100}%;
+                    left: ${Math.random() * 100}%;
+                    animation: twinkle ${2 + Math.random() * 3}s infinite;
+                `;
+                container.appendChild(sparkle);
+            }
+        }
+        createSparkles();
+
+        // 测试逻辑
+        let currentQuestion = 1;
+        const totalQuestions = 3;
+        const answers = [];
+
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function () {
+                // 移除所有选项的选中样式
+                const options = this.parentNode.querySelectorAll('.option');
+                options.forEach(opt => opt.classList.remove('selected'));
+                // 添加当前选项的选中样式
+                this.classList.add('selected');
+
+                // 模拟短暂延迟
+                setTimeout(() => {
+                    answers.push(this.dataset.value);
+
+                    // 更新进度条
+                    document.querySelector('.progress').style.width =
+                        `${(answers.length / totalQuestions) * 100}%`;
+
+                    if (currentQuestion < totalQuestions) {
+                        // 切换问题
+                        document.querySelector(`[data-question="${currentQuestion}"]`).classList.remove('active');
+                        currentQuestion++;
+                        document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('active');
+                    } else {
+                        // 显示加载动画
+                        document.querySelector('.loading').style.display = 'block';
+                        // 模拟结果计算延迟
+                        setTimeout(() => {
+                            // 隐藏加载动画
+                            document.querySelector('.loading').style.display = 'none';
+                            // 显示结果
+                            showResult();
+                        }, 2000);
+                    }
+                }, 300);
+            });
+        });
+
+        function showResult() {
+            // 根据答案计算结果显示
+            const container = document.querySelector('.container');
+            const resultText = getResultText(answers);
+            const resultDescription = getResultDescription(resultText);
+            const resultImage = getResultImage(resultText);
+            container.innerHTML = `
+                <h1>最适合你的妆容风格是...</h1>
+                <div class="result">
+                    <img class="result-img" src="${resultImage}" alt="${resultText}">
+                    <h2>${resultText}</h2>
+                    <p>${resultDescription}</p>
+                </div>
+            `;
+        }
+
+        function getResultText(answers) {
+            let scoreA = 0;
+            let scoreB = 0;
+            let scoreC = 0;
+
+            answers.forEach(answer => {
+                if (answer === 'a') {
+                    scoreA++;
+                } else if (answer === 'b') {
+                    scoreB++;
+                } else if (answer === 'c') {
+                    scoreC++;
+                }
+            });
+
+            if (scoreA >= scoreB && scoreA >= scoreC) {
+                return "清新自然妆";
+            } else if (scoreB >= scoreA && scoreB >= scoreC) {
+                return "冷艳气质妆";
+            } else {
+                return "华丽派对妆";
+            }
+        }
+
+        function getResultDescription(resultText) {
+            switch (resultText) {
+                case "清新自然妆":
+                    return "这种妆容强调自然的肤色和柔和的色彩搭配，让你看起来清新脱俗，适合日常出行，展现出邻家女孩般的亲和力。";
+                case "冷艳气质妆":
+                    return "冷艳气质妆以深沉的色彩为主，突出五官的立体感，展现出一种神秘而高贵的气质，适合在一些正式场合或聚会中吸引目光。";
+                case "华丽派对妆":
+                    return "华丽派对妆采用鲜艳的色彩和夸张的造型，能够让你在派对等场合中成为焦点，展现出自信和魅力。";
+                default:
+                    return "";
+            }
+        }
+
+        function getResultImage(resultText) {
+            switch (resultText) {
+                case "清新自然妆":
+                    return "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80";
+                case "冷艳气质妆":
+                    return "https://images.unsplash.com/photo-1529641484336-ef35148bab06?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80";
+                case "华丽派对妆":
+                    return "https://images.unsplash.com/photo-1534353649119-8d19d819a928?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80";
+                default:
+                    return "https://via.placeholder.com/300";
+            }
+        }
+    </script>
+</body>
+
+</html>
