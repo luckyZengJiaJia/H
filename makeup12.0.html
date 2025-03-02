@@ -1,0 +1,399 @@
+以下是基于你提供的代码基础，实现你所要求功能的详细代码。该代码允许用户选择不同的妆容风格，展示对应的妆容参考图片，同时为推荐的化妆品附上图片、价格和购买渠道。此外，还对网页背景进行了优化，增加了一些化妆品图片进行点缀，并提升了交互体验。
+
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxe Beauty | 高端场合妆容定制</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --deep-navy: #0A0F24;
+            --crystal-pink: #FFE5E5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background: var(--deep-navy);
+            color: var(--crystal-pink);
+            overflow-x: hidden;
+        }
+
+        /* 动态背景层 */
+        .luxe-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(10, 15, 36, 0.9), rgba(10, 15, 36, 0.9)),
+                url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9') center/cover;
+            z-index: -1;
+            filter: saturate(1.2);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* 化妆品点缀图片 */
+        .luxe-bg img {
+            width: 100px;
+            height: auto;
+            opacity: 0.3;
+            position: absolute;
+            animation: float 10s infinite alternate;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(50px);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: var(--gold);
+        }
+
+        h1 {
+            font-size: 4rem;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            margin-bottom: 20px;
+        }
+
+        /* 美妆工具按钮 */
+        .vogue-filter {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 60px 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--gold);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .filter-btn i {
+            font-size: 2rem;
+            color: var(--gold);
+            transition: transform 0.3s;
+        }
+
+        .filter-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .filter-btn:hover::after {
+            content: attr(data-category);
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.9rem;
+            color: var(--gold);
+        }
+
+        /* 妆容卡片 */
+        .makeup-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            perspective: 1000px;
+        }
+
+        .couture-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+
+        .couture-card.active {
+            display: block;
+        }
+
+        .couture-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .couture-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: skewX(-45deg);
+            transition: left 0.8s;
+        }
+
+        .couture-card:hover::before {
+            left: 200%;
+        }
+
+        .product-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .product-list li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+
+        /* 化妆品信息 */
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .product-info img {
+            width: 50px;
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .filter-btn {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* 品牌水印 */
+        .brand-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20vw;
+            color: rgba(212, 175, 55, 0.03);
+            z-index: -1;
+            user-select: none;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="luxe-bg">
+        <!-- 化妆品点缀图片 -->
+        <img src="https://example.com/makeup1.png" alt="Makeup 1">
+        <img src="https://example.com/makeup2.png" alt="Makeup 2">
+        <img src="https://example.com/makeup3.png" alt="Makeup 3">
+    </div>
+    <div class="brand-overlay">DIOR · CHANEL · YSL</div>
+
+    <header class="header">
+        <h1>LUXE BEAUTÉ</h1>
+        <p>Where Elegance Meets Artistry</p>
+    </header>
+
+    <div class="container">
+        <div class="vogue-filter">
+            <button class="filter-btn" data-category="wedding">
+                <i class="fas fa-ring"></i>
+            </button>
+            <button class="filter-btn" data-category="date">
+                <i class="fas fa-heart"></i>
+            </button>
+            <button class="filter-btn" data-category="gala">
+                <i class="fas fa-glass-cheers"></i>
+            </button>
+            <button class="filter-btn" data-category="boardroom">
+                <i class="fas fa-briefcase"></i>
+            </button>
+        </div>
+
+        <div class="makeup-gallery">
+            <!-- 婚礼妆容示例 -->
+            <div class="couture-card" data-category="wedding">
+                <div class="card-header">
+                    <span class="couture-tag">Haute Couture</span>
+                    <img src="https://example.com/wedding-makeup.jpg" class="couture-image" alt="Wedding Makeup">
+                </div>
+                <h3>Bridal Radiance</h3>
+                <ul class="product-list">
+                    <li>
+                        <div class="product-info">
+                            <img src="https://example.com/dior-foundation.jpg" alt="DIOR Foundation">
+                            <span>DIOR Forever Foundation</span>
+                            <span>价格: $60</span>
+                            <span>购买渠道: 专柜、官网</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="product-info">
+                            <img src="https://example.com/chanel-eyeshadows.jpg" alt="CHANEL Eyeshadows">
+                            <span>CHANEL Les 4 Ombres #308</span>
+                            <span>价格: $55</span>
+                            <span>购买渠道: 专柜、官网</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="product-info">
+                            <img src="https://example.com/ysl-lipstick.jpg" alt="YSL Lipstick">
+                            <span>YSL Rouge Pur Couture #21</span>
+                            <span>价格: $40</span>
+                            <span>购买渠道: 专柜、官网</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="product-info">
+                            <img src="https://example.com/guerlain-pearls.jpg" alt="GUERLAIN Pearls">
+                            <span>GUERLAIN Meteorites Pearls</span>
+                            <span>价格: $70</span>
+                            <span>购买渠道: 专柜、官网</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 约会妆容示例 -->
+            <div class="couture-card" data-category="date">
+                <div class="card-header">
+                    <span class="couture-tag">Haute Couture</span>
+                    <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fgirlstyle.com%2Fmy%2Farticle%2F213611%2F%25E8%259D%25B4%25E8%259D%25B6%25E5%2585%25B0%25E5%25A6%2586-%25E4%25B8%2583%25E5%25A4%2595-%25E6%2583%2585%25E4%25BA%25BA%25E8%258A%2582-%25E5%25A6%2586%25E5%25AE%25B9-%25E6%2595%2599%25E7%25A8%258B&psig=AOvVaw32NtZspmYqOvJYg204CJjq&ust=1740987145604000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMC7-tjw6osDFQAAAAAdAAAAABAE"
+                        class="couture-image" alt="Date Makeup">
+                </div>
+                <h3>Romantic Date Look</h3>
+                <ul class="product-list">
+                    <li>
+                        <div class="product-info">
+                            <img src="https://example.com/product1.jpg" alt="Product 1">
+                            <span>产品 1</span>
+                            <span>价格: $30</span>
+                            <span>购买渠道: 电商平台</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="product-info">
+                            <img src="https://example.com/product2.jpg" alt="Product 2">
+                            <span>产品 2</span>
+                            <span>价格: $45</span>
+                            <span>购买渠道: 专柜</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 晚宴妆容示例 -->
+            <div class="couture-card" data-category="gala">
+                <div class="card-header">
+                    <span class="couture-tag">Haute Couture</span>
+                    <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fdepositphotos.com%2Fcn%2Fphoto%2Fportrait-of-young-beautiful-woman-with-evening-make-up-154440264.html&psig=AOvVaw1cVzstnGYLZtvEK22vwpo2&ust=1740987238530000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKCQ6Inx6osDFQAAAAAdAAAAABAJ"
+                        class="couture-image" alt="Gala Makeup">
+                </div>
+                <h3>Evening Glamour</h3>
+                <ul class="product-list">
+                    <li>
+                        <div class="product-info">
+                            <img src="https://example.com/product3.jpg" alt="Product 3">
+                            <span>产品 3</span>
+                            <span>价格: $50</span>
+                            <span>购买渠道: 官网</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="product-info">
+                            <img src="https://example.com/product4.jpg" alt="Product 4">
+                            <span>产品 4</span>
+                            <span>价格: $65</span>
+                            <span>购买渠道: 专柜</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 商务妆容示例 -->
+            <div class="couture-card" data-category="boardroom">
+                <div class="card-header">
+                    <span class="couture-tag">Haute Couture</span>
+                    <img src="https://example.com/boardroom-makeup.jpg" class="couture-image" alt="Boardroom Makeup">
+                </div>
+                <h3>Professional Look</h3>
+                <ul class="product-list">
+                    <li>
+                        <div class="product-info">
+                            <img src="https://example.com/product5.jpg" alt="Product 5">
+                            <span>产品 5</span>
+                            <span>价格: $40</span>
+                            <span>购买渠道: 电商平台</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="product-info">
+                            <img src="https://example.com/product6.jpg" alt="Product 6">
+                            <span>产品 6</span>
+                            <span>价格: $55</span>
+                            <span>购买渠道: 专柜</span>
+                        </div>
+                    </li>
