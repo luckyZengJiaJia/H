@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeBeauty | 高端妆容定制</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --deep-navy: #0A0F24;
+            --crystal: #FFFAF0;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background: var(--deep-navy);
+            color: var(--crystal);
+            overflow-x: hidden;
+        }
+
+        /* 动态漂浮化妆品背景 */
+        .cosmetic-bg {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(212,175,55,0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(212,175,55,0.05) 0%, transparent 50%);
+        }
+
+        .cosmetic-bg::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                url('https://cdn-icons-png.flaticon.com/128/1067/1067555.png'),
+                url('https://cdn-icons-png.flaticon.com/128/1067/1067566.png'),
+                url('https://cdn-icons-png.flaticon.com/128/599/599502.png');
+            background-size: 80px;
+            background-repeat: space;
+            opacity: 0.1;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { background-position: 0 0, 100px 150px, 250px 300px; }
+            50% { background-position: 300px 400px, 400px 500px, 500px 600px; }
+            100% { background-position: 600px 700px, 700px 800px, 800px 900px; }
+        }
+
+        /* 妆容展示区 */
+        .makeup-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+            padding: 40px;
+        }
+
+        .look-card {
+            background: rgba(255,250,240,0.05);
+            border: 1px solid var(--gold);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.5s;
+            position: relative;
+        }
+
+        .look-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .makeup-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--gold);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .makeup-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* 产品推荐区 */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .product-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .product-card:hover {
+            background: rgba(212,175,55,0.1);
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            margin: 0 auto 15px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+        }
+
+        .buy-btn {
+            display: inline-block;
+            padding: 8px 25px;
+            background: var(--gold);
+            color: var(--deep-navy);
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .buy-btn:hover {
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        /* 动态标题 */
+        .glow-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 40px 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        .glow-title::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            bottom: -10px;
+            left: 0;
+            animation: glowLine 3s infinite;
+        }
+
+        @keyframes glowLine {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmetic-bg"></div>
+
+    <div class="container">
+        <!-- 约会妆容 -->
+        <div class="look-card">
+            <img src="DATE_MAKEUP_IMAGE_URL" 
+                 alt="微醺蜜桃约会妆" 
+                 class="makeup-image">
+            <div class="content">
+                <h3 class="glow-title">蜜桃微醺妆</h3>
+                <div class="product-grid">
+                    <!-- 产品1 -->
+                    <div class="product-card">
+                        <img src="FOUNDATION_IMAGE_URL" 
+                             alt="粉底液" 
+                             class="product-image">
+                        <h4>NARS 亮采持久粉底液</h4>
+                        <p>¥480</p>
+                        <a href="#" class="buy-btn">立即购买</a>
+                    </div>
+                    <!-- 产品2 -->
+                    <div class="product-card">
+                        <img src="LIPSTICK_IMAGE_URL" 
+                             alt="唇釉" 
+                             class="product-image">
+                        <h4>YSL 水光唇釉#617</h4>
+                        <p>¥320</p>
+                        <a href="#" class="buy-btn">立即购买</a>
+                    </div>
+                    <!-- 更多产品... -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 晚宴妆容 -->
+        <div class="look-card">
+            <img src="GALA_MAKEUP_IMAGE_URL" 
+                 alt="奢华鎏金晚宴妆" 
+                 class="makeup-image">
+            <div class="content">
+                <h3 class="glow-title">鎏金晚宴妆</h3>
+                <div class="product-grid">
+                    <!-- 产品1 -->
+                    <div class="product-card">
+                        <img src="EYESHADOW_IMAGE_URL" 
+                             alt="眼影盘" 
+                             class="product-image">
+                        <h4>TOM FORD 四色眼影#31</h4>
+                        <p>¥720</p>
+                        <a href="#" class="buy-btn">立即购买</a>
+                    </div>
+                    <!-- 产品2 -->
+                    <div class="product-card">
+                        <img src="HIGHLIGHTER_IMAGE_URL" 
+                             alt="高光" 
+                             class="product-image">
+                        <h4>Charlotte Tilbury 高光液</h4>
+                        <p>¥380</p>
+                        <a href="#" class="buy-btn">立即购买</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 图片悬停放大
+        document.querySelectorAll('.makeup-image').forEach(img => {
+            img.addEventListener('mousemove', (e) => {
+                const rect = img.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width * 100;
+                const y = (e.clientY - rect.top) / rect.height * 100;
+                img.style.transformOrigin = `${x}% ${y}%`;
+            });
+        });
+
+        // 产品卡片随机旋转
+        document.querySelectorAll('.product-card').forEach(card => {
+            const rotate = Math.random() * 4 - 2; // -2deg到+2deg
+            card.style.transform = `rotate(${rotate}deg)`;
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = `rotate(0deg) translateY(-5px)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `rotate(${rotate}deg)`;
+            });
+        });
+    </script>
+</body>
+</html>
+// 添加以下脚本实现图片灯箱效果
+document.querySelectorAll('.makeup-image').forEach(img => {
+    img.addEventListener('click', () => {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            z-index: 999;
+        `;
+        
+        const zoomImg = new Image();
+        zoomImg.src = img.src;
+        zoomImg.style.maxWidth = '90vw';
+        zoomImg.style.maxHeight = '90vh';
+        zoomImg.style.objectFit = 'contain';
+
+        overlay.appendChild(zoomImg);
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener('click', () => overlay.remove());
+    });
+});
