@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星空魔法测验</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cinzel Decorative', cursive;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #0a0a2e, #1a1a4a),
+                        url('https://example.com/magic-bg.jpg') center/cover fixed;
+            color: #e0e0ff;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .crystal-ball {
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin: 2rem auto;
+            box-shadow: 0 0 50px #6c5ce7;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-container {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+
+        .question.active {
+            display: block;
+        }
+
+        .option {
+            background: rgba(108,92,231,0.3);
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #6c5ce7;
+        }
+
+        .progress-bar {
+            width: 60%;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            margin: 2rem auto;
+            border-radius: 2px;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: #6c5ce7;
+            transition: width 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stars {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <audio id="bgm" loop>
+        <source src="https://example.com/mystical-ambience.mp3" type="audio/mpeg">
+    </audio>
+    <div class="music-control">🎵</div>
+
+    <div class="container">
+        <div class="crystal-ball"></div>
+        <div class="question-container">
+            <div class="question active" data-question="1">
+                <h2>当星空闪耀时，你最先注意到的是？</h2>
+                <div class="option" data-value="a">星座的排列模式</div>
+                <div class="option" data-value="b">月亮的阴晴圆缺</div>
+                <div class="option" data-value="c">流星的短暂轨迹</div>
+            </div>
+            <div class="question" data-question="2">
+                <h2>魔法水晶球中浮现的景象是？</h2>
+                <div class="option" data-value="a">远古的符文阵法</div>
+                <div class="option" data-value="b">茂密的魔法森林</div>
+                <div class="option" data-value="c">汹涌的能量漩涡</div>
+            </div>
+            <div class="question" data-question="3">
+                <h2>你希望获得哪种神秘力量？</h2>
+                <div class="option" data-value="a">预知未来</div>
+                <div class="option" data-value="b">元素掌控</div>
+                <div class="option" data-value="c">时空穿梭</div>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // 背景音乐控制
+        const bgm = document.getElementById('bgm');
+        document.querySelector('.music-control').addEventListener('click', () => {
+            bgm.paused ? bgm.play() : bgm.pause();
+        });
+
+        // 动态创建星空效果
+        function createStars() {
+            const container = document.querySelector('.stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.style.cssText = `
+                    position: absolute;
+                    width: ${Math.random() * 3}px;
+                    height: ${Math.random() * 3}px;
+                    background: rgba(255,255,255,${Math.random()});
+                    top: ${Math.random() * 100}%;
+                    left: ${Math.random() * 100}%;
+                    animation: twinkle ${2 + Math.random() * 3}s infinite;
+                `;
+                container.appendChild(star);
+            }
+        }
+        createStars();
+
+        // 测试逻辑
+        let currentQuestion = 1;
+        const totalQuestions = 3;
+        const answers = [];
+
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                answers.push(this.dataset.value);
+                
+                // 更新进度条
+                document.querySelector('.progress').style.width = 
+                    `${(answers.length / totalQuestions) * 100}%`;
+
+                if (currentQuestion < totalQuestions) {
+                    // 切换问题
+                    document.querySelector(`[data-question="${currentQuestion}"]`).classList.remove('active');
+                    currentQuestion++;
+                    document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('active');
+                } else {
+                    // 显示结果
+                    showResult();
+                }
+            });
+        });
+
+        function showResult() {
+            // 根据答案计算结果显示
+            const container = document.querySelector('.container');
+            container.innerHTML = `
+                <h1>你的魔法天赋是...</h1>
+                <div class="result">
+                    <h2>${getResultText()}</h2>
+                    <p>${getResultDescription()}</p>
+                </div>
+            `;
+        }
+
+        function getResultText() {
+            // 根据答案返回结果
+            // 这里可以添加更复杂的逻辑
+            return "星空预言者";
+        }
+
+        function getResultDescription() {
+            return "你能解读星辰的密语，预知未来的轨迹，是连接现世与未知的桥梁。";
+        }
+    </script>
+</body>
+</html>
