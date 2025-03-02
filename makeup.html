@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>美妆定制</title>
+</head>
+
+<body>
+  <h1>选择你的场合</h1>
+  <ul>
+    <li><a href="#" id="work">工作场合</a></li>
+    <li><a href="#" id="party">派对场合</a></li>
+    <li><a href="#" id="wedding">婚礼场合</a></li>
+  </ul>
+  <div id="makeup-result"></div>
+
+  <script>
+    document.getElementById('work').addEventListener('click', function () {
+      document.getElementById('makeup-result').innerHTML = '这里将展示工作场合的妆容图片和化妆品推荐';
+    });
+    document.getElementById('party').addEventListener('click', function () {
+      document.getElementById('makeup-result').innerHTML = '这里将展示派对场合的妆容图片和化妆品推荐';
+    });
+    document.getElementById('wedding').addEventListener('click', function () {
+      document.getElementById('makeup-result').innerHTML = '这里将展示婚礼场合的妆容图片和化妆品推荐';
+    });
+  </script>
+</body>
+
+</html>
